@@ -57,3 +57,8 @@ DATABASES = {
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "scoreboard" / "static"]
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# # Whitenoise para servir estáticos en producción
+# MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
+

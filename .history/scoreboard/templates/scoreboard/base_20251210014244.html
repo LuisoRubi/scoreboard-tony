@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quiz Mágico - Puntajes</title>
+
+  <!-- Tailwind CDN (rápido para prototipo) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- HTMX -->
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.3"></script>
+  <!-- Anime.js para animaciones -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+  <style>
+    /* Pequeñas customizaciones pastel-friendly */
+    body { background: linear-gradient(180deg,#fff7fb 0%, #f6fff9 100%); font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+    .card { border-radius: 16px; box-shadow: 0 8px 20px rgba(15,23,42,0.06); }
+    .score-num { font-weight: 800; font-size: 3rem; }
+    .btn-giant { padding: 1rem 1.25rem; border-radius: 12px; font-weight:700; font-size:1.05rem; }
+  </style>
+  {% block head %}{% endblock %}
+</head>
+<body class="min-h-screen flex items-center justify-center p-6">
+  <div class="max-w-4xl w-full">
+    {% block content %}{% endblock %}
+  </div>
+
+  <script>
+    // Animación al actualizar puntaje: anime pulsante en el número que cambió
+    document.body.addEventListener('htmx:afterRequest', function(evt){
+      // buscar elemento .score-num dentro del fragmento re-renderizado
+      const updated = document.querySelectorAll('.score-num');
+      updated.forEach(el=>{
+        anime.remove(el);
+        anime({
+          targets: el,
+          scale: [1.0, 1.12, 1.0],
+          duration: 700,
+          easing: 'easeOutElastic(1, .6)'
+        });
+      });
+    });
+  </script>
+</body>
+</html>

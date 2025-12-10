@@ -1,0 +1,25 @@
+{% extends "scoreboard/base.html" %}
+{% block content %}
+  <div class="card p-6">
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h1 class="text-2xl font-bold">Quiz Mágico — Puntajes</h1>
+        <p class="text-sm text-gray-600">Equipos: Rosa · Naranja · Azul — Cada acierto suma <strong>+10</strong></p>
+      </div>
+      <div>
+        <form hx-post="{% url 'scoreboard:reset_scores' %}" hx-target="#scores" hx-swap="outerHTML">
+          {% csrf_token %}
+          <button class="btn-giant bg-white/80 hover:bg-white/100 card border border-gray-100 px-4 py-2">Reiniciar</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Scores fragment -->
+    {% include "scoreboard/_scores.html" %}
+  </div>
+
+  <!-- Sugerencia visual grande para la pantalla -->
+  <div class="mt-6 text-center text-gray-500 text-sm">
+    Usa los botones grandes para sumar puntos durante el juego. Abre esta página en una pestaña aparte mientras presentas en Canva.
+  </div>
+{% endblock %}

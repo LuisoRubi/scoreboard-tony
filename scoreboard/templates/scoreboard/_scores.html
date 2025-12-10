@@ -1,56 +1,56 @@
 <div id="scores" class="grid grid-cols-3 gap-6">
-  {% for team in teams %}
-    <div class="card p-6 text-center"
-         style="background:
-           {% if team.name == 'Equipo 1' %}
-             #4ade80
-           {% elif team.name == 'Equipo 2' %}
-             #f87171
-           {% else %}
-             #60a5fa
-           {% endif %}
-         ">
-      
-      <div class="text-lg font-semibold uppercase tracking-wide mb-3 text-white drop-shadow">
-        {{ team.name }}
-      </div>
+    {% for team in teams %}
+        <div class="card p-6 text-center"
+            style="background:
+            {% if team.name == 'Equipo 1' %}
+                #4ade80
+            {% elif team.name == 'Equipo 2' %}
+                #f87171
+            {% else %}
+                #60a5fa
+            {% endif %}
+            ">
+        
+        <div class="text-lg font-semibold uppercase tracking-wide mb-3 text-white drop-shadow">
+            {{ team.name }}
+        </div>
 
-      <div class="score-num text-white drop-shadow" id="score-{{ team.id }}">
-        {{ team.points }}
-      </div>
+        <div class="score-num text-white drop-shadow" id="score-{{ team.id }}">
+            {{ team.points }}
+        </div>
 
-      <div class="mt-5 flex justify-center gap-3">
-        <!-- Sumar -->
-        <form
-          hx-post="{% url 'scoreboard:add_points' team.id %}"
-          hx-target="#scores"
-          hx-swap="outerHTML"
-        >
-          {% csrf_token %}
-          <button
-            type="submit"
-            class="btn-giant bg-white/80 hover:bg-white/100 card border border-gray-100 px-6 py-3"
-          >
-            +1 Punto
-          </button>
-        </form>
+        <div class="mt-5 flex justify-center gap-3">
+            <!-- Sumar -->
+            <form
+            hx-post="{% url 'scoreboard:add_points' team.id %}"
+            hx-target="#scores"
+            hx-swap="outerHTML"
+            >
+            {% csrf_token %}
+            <button
+                type="submit"
+                class="btn-giant bg-white/80 hover:bg-white/100 card border border-gray-100 px-6 py-3"
+            >
+                +1 Punto
+            </button>
+            </form>
 
-        <!-- Restar -->
-        <form
-          hx-post="{% url 'scoreboard:subtract_points' team.id %}"
-          hx-target="#scores"
-          hx-swap="outerHTML"
-        >
-          {% csrf_token %}
-          <button
-            type="submit"
-            class="btn-giant bg-white/60 hover:bg-white/80 card border border-gray-100 px-6 py-3"
-          >
-            -1 Punto
-          </button>
-        </form>
-      </div>
+            <!-- Restar -->
+            <form
+            hx-post="{% url 'scoreboard:subtract_points' team.id %}"
+            hx-target="#scores"
+            hx-swap="outerHTML"
+            >
+            {% csrf_token %}
+            <button
+                type="submit"
+                class="btn-giant bg-white/60 hover:bg-white/80 card border border-gray-100 px-6 py-3"
+            >
+                -1 Punto
+            </button>
+            </form>
+        </div>
 
-    </div>
-  {% endfor %}
+        </div>
+    {% endfor %}
 </div>

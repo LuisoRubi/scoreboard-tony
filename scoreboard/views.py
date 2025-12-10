@@ -10,7 +10,7 @@ def index(request):
 @require_POST
 def add_points(request, team_id):
     team = get_object_or_404(Team, pk=team_id)
-    # cada acierto suma 10 (según tu configuración)
+    # cada acierto suma 10 
     team.points += 10
     team.save()
     # Si la solicitud viene por HTMX, devolvemos solo fragmento de scores
@@ -22,11 +22,9 @@ def reset_scores(request):
     return render(request, "scoreboard/_scores.html", {"teams": Team.objects.all().order_by("id")})
 
 @require_POST
-def remove_points(request, team_id):
+def subtract_points(request, team_id):
     team = get_object_or_404(Team, pk=team_id)
-    team.points = max(team.points - 10, 0)  # evita negativos
+    team.points = max(0, team.points - 10)  # no baja de 0
     team.save()
+    return render(request, "scoreboard/_scores.html", {"teams": Team.objects.all().order_by("id")})
 
-    return render(request, "scoreboard/_scores.html", {
-        "teams": Team.objects.all().order_by("id")
-    })

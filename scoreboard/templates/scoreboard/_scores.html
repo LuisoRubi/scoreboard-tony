@@ -1,58 +1,55 @@
 <div id="scores" class="grid grid-cols-3 gap-6">
   {% for team in teams %}
-<div class="card p-6 text-center"
-     style="background:
-       {% if team.name|lower == 'rosa' %}
-         linear-gradient(135deg, #ffb3d9, #ff8fc7)
-       {% elif team.name|lower == 'naranja' %}
-         linear-gradient(135deg, #ffd8a8, #ffc78a)
-       {% else %}
-         linear-gradient(135deg, #a7d8ff, #89c5ff)
-       {% endif %}
-     ">
+    <div class="card p-6 text-center"
+         style="background:
+           {% if team.name == 'Equipo 1' %}
+             #4ade80
+           {% elif team.name == 'Equipo 2' %}
+             #f87171
+           {% else %}
+             #60a5fa
+           {% endif %}
+         ">
       
-      <div class="text-sm font-semibold uppercase tracking-wide mb-3">
+      <div class="text-lg font-semibold uppercase tracking-wide mb-3 text-white drop-shadow">
         {{ team.name }}
       </div>
 
-      <div class="score-num" id="score-{{ team.id }}">
+      <div class="score-num text-white drop-shadow" id="score-{{ team.id }}">
         {{ team.points }}
       </div>
 
-<div class="mt-5 flex justify-center gap-3">
+      <div class="mt-5 flex justify-center gap-3">
+        <!-- Sumar -->
+        <form
+          hx-post="{% url 'scoreboard:add_points' team.id %}"
+          hx-target="#scores"
+          hx-swap="outerHTML"
+        >
+          {% csrf_token %}
+          <button
+            type="submit"
+            class="btn-giant bg-white/80 hover:bg-white/100 card border border-gray-100 px-6 py-3"
+          >
+            +10
+          </button>
+        </form>
 
-  <!-- BOTÓN SUMAR -->
-  <form
-    hx-post="{% url 'scoreboard:add_points' team.id %}"
-    hx-target="#scores"
-    hx-swap="outerHTML"
-  >
-    {% csrf_token %}
-    <button
-      type="submit"
-      class="btn-giant bg-white/80 hover:bg-white/100 card border border-gray-100 px-6 py-3"
-    >
-      +1 Punto
-    </button>
-  </form>
-
-  <!-- BOTÓN RESTAR -->
-  <form
-    hx-post="{% url 'scoreboard:remove_points' team.id %}"
-    hx-target="#scores"
-    hx-swap="outerHTML"
-  >
-    {% csrf_token %}
-    <button
-      type="submit"
-      class="btn-giant bg-white/60 hover:bg-white/90 card border border-gray-100 px-6 py-3"
-    >
-      –1 Punto
-    </button>
-  </form>
-
-</div>
-
+        <!-- Restar -->
+        <form
+          hx-post="{% url 'scoreboard:subtract_points' team.id %}"
+          hx-target="#scores"
+          hx-swap="outerHTML"
+        >
+          {% csrf_token %}
+          <button
+            type="submit"
+            class="btn-giant bg-white/60 hover:bg-white/80 card border border-gray-100 px-6 py-3"
+          >
+            -10
+          </button>
+        </form>
+      </div>
 
     </div>
   {% endfor %}

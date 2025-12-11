@@ -1,26 +1,38 @@
-<div id="scores" class="grid grid-cols-3 gap-6">
+<div id="scores" class="grid grid-cols-1 md:grid-cols-3 gap-6">
   {% for team in teams %}
-    <div class="card p-6 text-center"
-         style="background:
-           {% if team.name == 'Equipo 1' %}
-             #4ade80
-           {% elif team.name == 'Equipo 2' %}
-             #f87171
-           {% else %}
-             #60a5fa
-           {% endif %}
-         ">
-      
-      <div class="text-lg font-semibold uppercase tracking-wide mb-3 text-white drop-shadow">
+    <div
+      class="card p-5 text-center
+      {% if forloop.counter == 1 %} team-card-green
+      {% elif forloop.counter == 2 %} team-card-red
+      {% else %} team-card-blue
+      {% endif %}"
+    >
+
+      <div class="text-sm font-semibold uppercase tracking-wide mb-2 team-name">
         {{ team.name }}
       </div>
 
-      <div class="score-num text-white drop-shadow" id="score-{{ team.id }}">
+      <div class="score-num text-white" id="score-{{ team.id }}">
         {{ team.points }}
       </div>
 
-      <div class="mt-5 flex justify-center gap-3">
-        <!-- Sumar -->
+      <div class="mt-4">
+        <div class="progress-track">
+          <div
+            class="progress-fill
+              {% if forloop.counter == 1 %} bg-emerald-400
+              {% elif forloop.counter == 2 %} bg-rose-400
+              {% else %} bg-sky-400
+              {% endif %}"
+            style="width: {{ team.progress }}%;"
+          ></div>
+        </div>
+        <p class="mt-1 text-[0.7rem] text-slate-300">
+          Progreso: {{ team.progress }}%
+        </p>
+      </div>
+
+      <div class="mt-5 flex flex-col gap-2">
         <form
           hx-post="{% url 'scoreboard:add_points' team.id %}"
           hx-target="#scores"
@@ -29,13 +41,12 @@
           {% csrf_token %}
           <button
             type="submit"
-            class="btn-giant bg-white/80 hover:bg-white/100 card border border-gray-100 px-6 py-3"
+            class="btn-giant bg-emerald-400/90 hover:bg-emerald-300 text-slate-900 w-full"
           >
             +1 Punto
           </button>
         </form>
 
-        <!-- Restar -->
         <form
           hx-post="{% url 'scoreboard:subtract_points' team.id %}"
           hx-target="#scores"
@@ -44,13 +55,12 @@
           {% csrf_token %}
           <button
             type="submit"
-            class="btn-giant bg-white/60 hover:bg-white/80 card border border-gray-100 px-6 py-3"
+            class="btn-giant bg-rose-400/90 hover:bg-rose-300 text-slate-900 w-full"
           >
             -1 Punto
           </button>
         </form>
       </div>
-
     </div>
   {% endfor %}
 </div>

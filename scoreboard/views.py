@@ -32,8 +32,10 @@ def reset_scores(request):
 @require_POST
 def subtract_points(request, team_id):
     team = get_object_or_404(Team, pk=team_id)
-    team.points = max(0, team.points - 10)  # no baja de 0
+    team.points = max(0, team.points - 10)
     team.save()
     return render(
-        request, "scoreboard/_scores.html", {"teams": Team.objects.all().order_by("id")}
+        request,
+        "scoreboard/_scores.html",
+        {"teams": Team.objects.all().order_by("id")},
     )

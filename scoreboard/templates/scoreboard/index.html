@@ -1,25 +1,36 @@
 {% extends "scoreboard/base.html" %}
 {% block content %}
-  <div class="card p-6">
-    <div class="flex items-center justify-between mb-6">
-      <div>
-        <h1 class="text-2xl font-bold">100 Peers Dijeron — Puntajes</h1>
-        <p class="text-sm text-gray-600">Equipos: 🟩 Equipo 1 - Verde 🟩 · 🟥 Equipo 2 - Rojo 🟥 · 🟦 Equipo 3 - Azul 🟦 — Cada acierto suma <strong>+10 puntos</strong></p>
-      </div>
-      <div>
-        <form hx-post="{% url 'scoreboard:reset_scores' %}" hx-target="#scores" hx-swap="outerHTML">
-          {% csrf_token %}
-          <button class="btn-giant bg-white/80 hover:bg-white/100 card border border-gray-100 px-4 py-2">Reiniciar</button>
-        </form>
-      </div>
+    <div class="card p-6">
+        <div class="board-strip mb-5"></div>
+
+        <div class="flex items-center justify-between mb-4">
+        <div class="space-y-1">
+            <span class="title-pill">
+            ✨ 100 Pears Dijeron ✨
+            </span>
+            <h1 class="title-main title-main-shadow mt-1">
+            ✨ S C O R E B O A R D ✨
+            </h1>
+            <p class="title-sub">
+            🟩 Equipo 1 - Verde · 🟥 Equipo 2 - Rojo · 🟦 Equipo 3 - Azul ---- Cada punto vale 10
+            </p>
+        </div>
+        <div>
+            <form hx-post="{% url 'scoreboard:reset_scores' %}" hx-target="#scores" hx-swap="outerHTML">
+            {% csrf_token %}
+            <button class="btn-giant bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-500">
+                🔄 Reiniciar
+            </button>
+            </form>
+        </div>
+        </div>
+
+        <!-- Scores fragment -->
+        {% include "scoreboard/_scores.html" %}
     </div>
 
-    <!-- Scores fragment -->
-    {% include "scoreboard/_scores.html" with teams=teams %}
-  </div>
-
-  <!-- Sugerencia visual grande para la pantalla -->
-  <div class="mt-6 text-center text-gray-500 text-sm">
-    Usa los botones grandes para sumar o restar puntos durante el juego. Reiniciar para regresar los puntajes a cero.
-  </div>
+    <div class="mt-6 text-center text-gray-300 text-xs">
+        Espero que te ayude, Tony 🐻
+    </div>
 {% endblock %}
+
